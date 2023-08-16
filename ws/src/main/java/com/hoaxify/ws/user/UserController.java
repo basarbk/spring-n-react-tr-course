@@ -35,7 +35,7 @@ public class UserController {
         apiError.setPath("/api/v1/users");
         apiError.setMessage("Validation error");
         apiError.setStatus(400);
-        var validationErrors = exception.getBindingResult().getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
+        var validationErrors = exception.getBindingResult().getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage, (existing, replacing) -> existing));
         apiError.setValidationErrors(validationErrors);
         return ResponseEntity.badRequest().body(apiError);
     }
