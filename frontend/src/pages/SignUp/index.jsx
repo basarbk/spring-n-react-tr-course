@@ -9,6 +9,7 @@ export function SignUp() {
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState();
   const [errors, setErrors] = useState({});
+  const [generalError, setGeneralError] = useState();
 
   useEffect(() => {
     setErrors({})
@@ -17,6 +18,7 @@ export function SignUp() {
   const onSubmit = async (event) => {
     event.preventDefault();
     setSuccessMessage();
+    setGeneralError();
     setApiProgress(true);
 
     try {
@@ -32,6 +34,8 @@ export function SignUp() {
         axiosError.response.data.status === 400
       ) {
         setErrors(axiosError.response.data.validationErrors);
+      } else {
+        setGeneralError('Unexpected error occured. Please try again');
       }
     } finally {
       setApiProgress(false);
@@ -94,7 +98,9 @@ export function SignUp() {
             {successMessage && (
               <div className="alert alert-success">{successMessage}</div>
             )}
-
+            {generalError && (
+              <div className="alert alert-danger">{generalError}</div>
+            )}
             <div className="text-center">
               <button
                 className="btn btn-primary"
