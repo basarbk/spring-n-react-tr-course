@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,6 +27,7 @@ public class UserController {
 
     @PostMapping("/api/v1/users")
     GenericMessage createUser(@Valid @RequestBody User user){
+        System.err.println("-----" + LocaleContextHolder.getLocale().getLanguage());
         userService.save(user);
         return new GenericMessage("User is created");
     }
