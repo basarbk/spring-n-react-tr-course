@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { signUp } from "./api";
 import { Input } from "./components/Input";
 
@@ -66,6 +66,13 @@ export function SignUp() {
     }
   };
 
+  const passwordRepeatError = useMemo(() => {
+    if(password && password !== passwordRepeat) {
+      return 'Password mismatch'
+    }
+    return '';
+  }, [password, passwordRepeat]);
+
   return (
     <div className="container">
       <div className="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2">
@@ -77,17 +84,7 @@ export function SignUp() {
             <Input id="username" label="Username" error={errors.username} onChange={(event) => setUsername(event.target.value)}/>
             <Input id="email" label="E-mail" error={errors.email} onChange={(event) => setEmail(event.target.value)} />
             <Input id="password" label="Password" error={errors.password} onChange={(event) => setPassword(event.target.value)} type="password" />
-            <div className="mb-3">
-              <label htmlFor="passwordRepeat" className="form-label">
-                Password Repeat
-              </label>
-              <input
-                id="passwordRepeat"
-                className="form-control"
-                type="password"
-                onChange={(event) => setPasswordRepeat(event.target.value)}
-              />
-            </div>
+            <Input id="passwordRepeat" label="Password Repeat" error={passwordRepeatError} onChange={(event) => setPasswordRepeat(event.target.value)} type="password" />
             {successMessage && (
               <div className="alert alert-success">{successMessage}</div>
             )}
