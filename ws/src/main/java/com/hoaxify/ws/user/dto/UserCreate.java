@@ -15,7 +15,7 @@ public record UserCreate(
 
     @NotBlank
     @Email
-    @UniqueEmail
+    // @UniqueEmail
     String email,
 
     @Size(min = 8, max=255)
