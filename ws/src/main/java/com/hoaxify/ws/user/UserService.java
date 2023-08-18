@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import com.hoaxify.ws.user.exception.NotUniqueEmailException;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService {
 
@@ -22,6 +25,7 @@ public class UserService {
 
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Transactional(rollbackOn = MailException.class)
     public void save(User user){
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -47,7 +51,7 @@ public class UserService {
         mailSender.setHost("smtp.ethereal.email");
         mailSender.setPort(587);
         mailSender.setUsername("isaac.goyette73@ethereal.email");
-        mailSender.setPassword("BFfKYVxxnHH2QcT71P");
+        mailSender.setPassword("BFfKYVxxnHH2QcT71P-");
 
         Properties properties = mailSender.getJavaMailProperties();
         properties.put("mail.smtp.starttls.enable", "true");
