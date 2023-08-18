@@ -21,6 +21,10 @@ public class EmailService {
 
     @PostConstruct
     public void initialize(){
+        System.err.println("--------");
+        System.err.println(hoaxifyProperties.getClient().host());
+        System.err.println("--------");
+
         this.mailSender = new JavaMailSenderImpl();
         mailSender.setHost(hoaxifyProperties.getEmail().host());
         mailSender.setPort(hoaxifyProperties.getEmail().port());
