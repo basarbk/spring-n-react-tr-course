@@ -21,6 +21,7 @@ import com.hoaxify.ws.error.ApiError;
 import com.hoaxify.ws.shared.GenericMessage;
 import com.hoaxify.ws.shared.Messages;
 import com.hoaxify.ws.user.dto.UserCreate;
+import com.hoaxify.ws.user.dto.UserProjection;
 import com.hoaxify.ws.user.exception.ActivationNotificationException;
 import com.hoaxify.ws.user.exception.InvalidTokenException;
 import com.hoaxify.ws.user.exception.NotUniqueEmailException;
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     @GetMapping("/api/v1/users")
-    Page<User> getUsers(Pageable page){
+    Page<UserProjection> getUsers(Pageable page){
         return userService.getUsers(page);
     }
 
