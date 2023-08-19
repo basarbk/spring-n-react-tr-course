@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { loadUsers } from "./api";
 import { Spinner } from "@/shared/components/Spinner";
+import { UserListItem } from "./UserListItem";
 
 export function UserList() {
   const [userPage, setUserPage] = useState({
-    content: [{ username: "test" }],
+    content: [],
     last: false,
     first: false,
     number: 0,
@@ -31,11 +32,7 @@ export function UserList() {
       <div className="card-header text-center fs-4">User List</div>
       <ul className="list-group list-group-flush">
         {userPage.content.map((user) => {
-          return (
-            <li className="list-group-item list-group-item-action">
-              {user.username}
-            </li>
-          );
+          return <UserListItem key={user.id} user={user}/>;
         })}
       </ul>
       <div className="card-footer text-center">
