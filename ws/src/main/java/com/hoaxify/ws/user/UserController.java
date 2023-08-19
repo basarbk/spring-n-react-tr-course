@@ -26,6 +26,8 @@ import com.hoaxify.ws.user.exception.ActivationNotificationException;
 import com.hoaxify.ws.user.exception.InvalidTokenException;
 import com.hoaxify.ws.user.exception.NotUniqueEmailException;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -51,6 +53,11 @@ public class UserController {
     @GetMapping("/api/v1/users")
     Page<UserDTO> getUsers(Pageable page){
         return userService.getUsers(page).map(UserDTO::new);
+    }
+
+    @GetMapping("/api/v1/users/{id}")
+    UserDTO getUserById(@PathVariable long id){
+        return new UserDTO(userService.getUser(id));
     }
 
 
@@ -86,12 +93,21 @@ public class UserController {
     }
 
     @ExceptionHandler(InvalidTokenException.class)
-    ResponseEntity<ApiError> handleInvalidTokenException(InvalidTokenException exception){
+    ResponseEntity<ApiError> handleInvalidTokenException(InvalidTokenException exception, HttpServletRequest request){
         ApiError apiError = new ApiError();
-        apiError.setPath("/api/v1/users");
+        apiError.setPath(request.getRequestURI());
         apiError.setMessage(exception.getMessage());
         apiError.setStatus(400);
         return ResponseEntity.status(400).body(apiError);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    ResponseEntity<ApiError> handleEntityNotFoundException(EntityNotFoundException exception, HttpServletRequest request){
+        ApiError apiError = new ApiError();
+        apiError.setPath(request.getRequestURI());
+        apiError.setMessage("Not found");
+        apiError.setStatus(404);
+        return ResponseEntity.status(404).body(apiError);
     }
 
     

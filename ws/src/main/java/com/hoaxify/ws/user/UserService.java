@@ -57,4 +57,8 @@ public class UserService {
         return userRepository.findAll(page);
     }
 
+    public User getUser(long id) {
+        return userRepository.getReferenceById(id);
+    }
+
 }
