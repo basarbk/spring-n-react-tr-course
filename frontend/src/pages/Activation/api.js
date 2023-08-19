@@ -1,5 +1,5 @@
-import axios from "axios";
+import http from "../../lib/http";
 
 export function activateUser(token){
-    return axios.patch(`/api/v1/users/${token}/active`)
+    return http.patch(`/api/v1/users/${token}/active`)
 }
