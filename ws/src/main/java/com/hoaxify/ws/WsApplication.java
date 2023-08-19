@@ -30,11 +30,6 @@ public class WsApplication {
 					user.setEmail("user"+i+"@mail.com");
 					user.setPassword(passwordEncoder.encode("P4ssword"));
 					user.setActive(true);
-					user.setFirstName("first"+i);
-					user.setLastName("last"+i);
-					if(i == 1){
-						user.setImage("my-profile-image.png");
-					}
 					userRepository.save(user);
 				}	
 		};
