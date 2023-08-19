@@ -1,10 +1,11 @@
 package com.hoaxify.ws.user;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,10 +53,8 @@ public class UserService {
         userRepository.save(inDB);
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public Page<User> getUsers(Pageable page) {
+        return userRepository.findAll(page);
     }
 
-
-    
 }

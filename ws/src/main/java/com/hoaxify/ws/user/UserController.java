@@ -1,10 +1,11 @@
 package com.hoaxify.ws.user;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -47,8 +48,8 @@ public class UserController {
     }
 
     @GetMapping("/api/v1/users")
-    List<User> getUsers(){
-        return userService.getUsers();
+    Page<User> getUsers(Pageable page){
+        return userService.getUsers(page);
     }
 
 
