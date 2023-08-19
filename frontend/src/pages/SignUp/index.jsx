@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { signUp } from "./api";
 import { Input } from "./components/Input";
 import { useTranslation } from "react-i18next";
-import { LanguageSelector } from "../../shared/components/LanguageSelector";
 
 export function SignUp() {
   const [username, setUsername] = useState();
@@ -135,7 +134,6 @@ export function SignUp() {
             </div>
           </div>
         </form>
-        <LanguageSelector />
       </div>
     </div>
   );
