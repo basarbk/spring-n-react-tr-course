@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.hoaxify.ws.email.EmailService;
 import com.hoaxify.ws.user.exception.ActivationNotificationException;
 import com.hoaxify.ws.user.exception.InvalidTokenException;
+import com.hoaxify.ws.user.exception.NotFoundException;
 import com.hoaxify.ws.user.exception.NotUniqueEmailException;
 
 import jakarta.transaction.Transactional;
@@ -58,7 +59,7 @@ public class UserService {
     }
 
     public User getUser(long id) {
-        return userRepository.getReferenceById(id);
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
 }

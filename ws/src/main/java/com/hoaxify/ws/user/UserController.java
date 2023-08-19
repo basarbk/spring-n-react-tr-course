@@ -24,9 +24,9 @@ import com.hoaxify.ws.user.dto.UserCreate;
 import com.hoaxify.ws.user.dto.UserDTO;
 import com.hoaxify.ws.user.exception.ActivationNotificationException;
 import com.hoaxify.ws.user.exception.InvalidTokenException;
+import com.hoaxify.ws.user.exception.NotFoundException;
 import com.hoaxify.ws.user.exception.NotUniqueEmailException;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
@@ -101,11 +101,11 @@ public class UserController {
         return ResponseEntity.status(400).body(apiError);
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    ResponseEntity<ApiError> handleEntityNotFoundException(EntityNotFoundException exception, HttpServletRequest request){
+    @ExceptionHandler(NotFoundException.class)
+    ResponseEntity<ApiError> handleNotFoundException(NotFoundException exception, HttpServletRequest request){
         ApiError apiError = new ApiError();
         apiError.setPath(request.getRequestURI());
-        apiError.setMessage("Not found");
+        apiError.setMessage(exception.getMessage());
         apiError.setStatus(404);
         return ResponseEntity.status(404).body(apiError);
     }
