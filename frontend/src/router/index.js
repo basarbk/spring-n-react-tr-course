@@ -3,6 +3,7 @@ import {createBrowserRouter } from "react-router-dom";
 import { Home } from "../pages/Home";
 import { SignUp } from "../pages/SignUp";
 import App from "../App";
+import { Activation } from "../pages/Activation";
 
 export default createBrowserRouter([
     {
@@ -18,6 +19,10 @@ export default createBrowserRouter([
           path: "/signup",
           Component: SignUp
         },
+        {
+          path: "/activation/:token",
+          Component: Activation
+        }
       ]
     }
   ])
