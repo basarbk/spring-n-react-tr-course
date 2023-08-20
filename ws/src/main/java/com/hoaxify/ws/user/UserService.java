@@ -10,6 +10,7 @@ import org.springframework.mail.MailException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hoaxify.ws.configuration.CurrentUser;
 import com.hoaxify.ws.email.EmailService;
 import com.hoaxify.ws.user.dto.UserUpdate;
 import com.hoaxify.ws.user.exception.ActivationNotificationException;
@@ -55,11 +56,11 @@ public class UserService {
         userRepository.save(inDB);
     }
 
-    public Page<User> getUsers(Pageable page, User loggedInUser) {
-        if(loggedInUser == null) {
+    public Page<User> getUsers(Pageable page, CurrentUser currentUser) {
+        if(currentUser == null) {
             return userRepository.findAll(page);
         }
-        return userRepository.findByIdNot(loggedInUser.getId(), page);
+        return userRepository.findByIdNot(currentUser.getId(), page);
     }
 
     public User getUser(long id) {
