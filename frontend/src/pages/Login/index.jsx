@@ -6,7 +6,7 @@ import { Input } from "@/shared/components/Input";
 import { Button } from "@/shared/components/Button";
 import { login } from "./api";
 
-export function Login() {
+export function Login({onLoginSuccess}) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [apiProgress, setApiProgress] = useState();
@@ -38,7 +38,8 @@ export function Login() {
     setApiProgress(true);
 
     try {
-        await login({ email, password })
+        const response = await login({ email, password })
+        onLoginSuccess(response.data.user)
     } catch (axiosError) {
         if (axiosError.response?.data) {
           if (axiosError.response.data.status === 400) {
