@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hoaxify.ws.user.User;
@@ -20,8 +19,7 @@ public class WsApplication {
 
 	@Bean
 	@Profile("dev")
-	CommandLineRunner userCreator(UserRepository userRepository){
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	CommandLineRunner userCreator(UserRepository userRepository, PasswordEncoder passwordEncoder){
 		return (args) -> {
 				for(var i = 1; i <= 25;i++){
 					User user = new User();
