@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert } from "@/shared/components/Alert";
 import { Spinner } from "@/shared/components/Spinner";
-import { Input } from "../SignUp/components/Input";
+import { Input } from "@/shared/components/Input";
+import { Button } from "@/shared/components/Button";
 
 export function Login() {
   const [email, setEmail] = useState();
@@ -11,7 +12,6 @@ export function Login() {
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
   const { t } = useTranslation();
-
 
   useEffect(() => {
     setErrors(function (lastErrors) {
@@ -38,24 +38,24 @@ export function Login() {
     setApiProgress(true);
 
     try {
-    //   const response = await signUp({
-    //     username,
-    //     email,
-    //     password,
-    //   });
-    //   setSuccessMessage(response.data.message);
+      //   const response = await signUp({
+      //     username,
+      //     email,
+      //     password,
+      //   });
+      //   setSuccessMessage(response.data.message);
     } catch (axiosError) {
-    //   if (axiosError.response?.data) {
-    //     if (axiosError.response.data.status === 400) {
-    //       setErrors(axiosError.response.data.validationErrors);
-    //     } else {
-    //       setGeneralError(axiosError.response.data.message);
-    //     }
-    //   } else {
-    //     setGeneralError(t("genericError"));
-    //   }
+      //   if (axiosError.response?.data) {
+      //     if (axiosError.response.data.status === 400) {
+      //       setErrors(axiosError.response.data.validationErrors);
+      //     } else {
+      //       setGeneralError(axiosError.response.data.message);
+      //     }
+      //   } else {
+      //     setGeneralError(t("genericError"));
+      //   }
     } finally {
-    //   setApiProgress(false);
+      //   setApiProgress(false);
     }
   };
 
@@ -80,21 +80,11 @@ export function Login() {
               onChange={(event) => setPassword(event.target.value)}
               type="password"
             />
-            {generalError && (
-              <Alert styleType="danger">{generalError}</Alert>
-            )}
+            {generalError && <Alert styleType="danger">{generalError}</Alert>}
             <div className="text-center">
-              <button
-                className="btn btn-primary"
-                disabled={
-                  apiProgress || !password || password !== passwordRepeat
-                }
-              >
-                {apiProgress && (
-                  <Spinner sm={true} />
-                )}
+              <Button disabled={!email || !password} apiProgress={apiProgress}>
                 {t("login")}
-              </button>
+              </Button>
             </div>
           </div>
         </form>
