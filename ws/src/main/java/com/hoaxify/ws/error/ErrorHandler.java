@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.hoaxify.ws.auth.exception.AuthenticationException;
 import com.hoaxify.ws.shared.Messages;
 import com.hoaxify.ws.user.exception.ActivationNotificationException;
-import com.hoaxify.ws.user.exception.AuthorizationException;
 import com.hoaxify.ws.user.exception.InvalidTokenException;
 import com.hoaxify.ws.user.exception.NotFoundException;
 import com.hoaxify.ws.user.exception.NotUniqueEmailException;
@@ -29,7 +28,6 @@ public class ErrorHandler {
         InvalidTokenException.class,
         NotFoundException.class,
         AuthenticationException.class,
-        AuthorizationException.class
     })
     ResponseEntity<ApiError> handleException(Exception exception, HttpServletRequest request){
         ApiError apiError = new ApiError();
@@ -52,8 +50,6 @@ public class ErrorHandler {
             apiError.setStatus(404);
         } else if (exception instanceof AuthenticationException) {
             apiError.setStatus(401);
-        } else if (exception instanceof AuthorizationException) {
-            apiError.setStatus(403);
         }
 
         return ResponseEntity.status(apiError.getStatus()).body(apiError);
