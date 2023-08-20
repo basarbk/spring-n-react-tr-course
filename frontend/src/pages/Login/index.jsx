@@ -6,8 +6,6 @@ import { Button } from "@/shared/components/Button";
 import { login } from "./api";
 import { useAuthDispatch } from "@/shared/state/context";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { loginSuccess } from "@/shared/state/redux";
 
 export function Login() {
   const [email, setEmail] = useState();
@@ -17,8 +15,7 @@ export function Login() {
   const [generalError, setGeneralError] = useState();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  // const dispatch = useAuthDispatch();
-  const dispatch = useDispatch();
+  const dispatch = useAuthDispatch();
 
   useEffect(() => {
     setErrors(function (lastErrors) {
@@ -45,8 +42,7 @@ export function Login() {
 
     try {
         const response = await login({ email, password })
-        // dispatch({type: 'login-success', data: response.data.user})
-        dispatch(loginSuccess(response.data.user))
+        dispatch({type: 'login-success', data: response.data.user})
         navigate("/")
     } catch (axiosError) {
         if (axiosError.response?.data) {
