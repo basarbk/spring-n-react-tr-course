@@ -3,25 +3,19 @@ import { LanguageSelector } from "./shared/components/LanguageSelector";
 import { NavBar } from "./shared/components/NavBar";
 import { Login } from "./pages/Login";
 import { useState } from "react";
+import { AuthenticationContext } from "./shared/state/context";
 
 function App() {
-  const [authState, setAuthState] = useState({
-    id: 0
-  })
-
-  const onLoginSuccess = (data) => {
-    setAuthState(data)
-  }
 
   return (
-    <>
-      <NavBar authState={authState}/>
+    <AuthenticationContext>
+      <NavBar/>
       <div className="container mt-3">
-        <Login onLoginSuccess={onLoginSuccess}/>
-        {/* <Outlet /> */}
+        {/* <Login onLoginSuccess={onLoginSuccess}/> */}
+        <Outlet />
         <LanguageSelector />
       </div>
-    </>
+    </AuthenticationContext>
   );
 }
 

@@ -1,9 +1,12 @@
 import logo from "@/assets/hoaxify.png";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../state/context";
 
-export function NavBar({ authState }) {
+export function NavBar() {
   const { t } = useTranslation();
+  const authState = useContext(AuthContext)
   return (
     <nav className="navbar navbar-expand bg-body-tertiary shadow-sm">
       <div className="container-fluid">
