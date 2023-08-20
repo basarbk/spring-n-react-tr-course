@@ -1,30 +1,41 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { loadAuthState, storeAuthState } from "./storage";
 
 export const AuthContext = createContext();
 
-export function AuthenticationContext({ children }) {
-  const [auth, setAuth] = useState(loadAuthState());
+export const AuthDispatchContext = createContext();
 
-  const onLoginSuccess = (data) => {
-    setAuth(data);
-    storeAuthState(data);
-  };
+export function useAuthState(){
+  return useContext(AuthContext);
+}
 
-  const onLogoutSuccess = () => {
-    setAuth({id: 0})
-    storeAuthState({id: 0})
+export function useAuthDispatch(){
+  return useContext(AuthDispatchContext);
+}
+
+const authReducer = (authState, action) => {
+  switch (action.type) {
+    case "login-success":
+      return action.data;
+    case "logout-success":
+      return { id: 0 };
+    default:
+      throw new Error(`unknown action: ${action.type}`);
   }
+};
+
+export function AuthenticationContext({ children }) {
+  const [authState, dispatch] = useReducer(authReducer, loadAuthState());
+
+  useEffect(() => {
+    storeAuthState(authState);
+  }, [authState]);
 
   return (
-    <AuthContext.Provider
-      value={{
-        ...auth,
-        onLoginSuccess,
-        onLogoutSuccess
-      }}
-    >
-      {children}
+    <AuthContext.Provider value={authState}>
+      <AuthDispatchContext.Provider value={dispatch}>
+        {children}
+      </AuthDispatchContext.Provider>
     </AuthContext.Provider>
   );
 }
