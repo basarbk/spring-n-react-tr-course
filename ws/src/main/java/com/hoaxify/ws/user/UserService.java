@@ -54,8 +54,11 @@ public class UserService {
         userRepository.save(inDB);
     }
 
-    public Page<User> getUsers(Pageable page) {
-        return userRepository.findAll(page);
+    public Page<User> getUsers(Pageable page, User loggedInUser) {
+        if(loggedInUser == null) {
+            return userRepository.findAll(page);
+        }
+        return userRepository.findByIdNot(loggedInUser.getId(), page);
     }
 
     public User getUser(long id) {

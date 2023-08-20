@@ -2,13 +2,22 @@ package com.hoaxify.ws.auth.token;
 
 import java.util.Base64;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hoaxify.ws.auth.dto.Credentials;
 import com.hoaxify.ws.user.User;
+import com.hoaxify.ws.user.UserService;
 
 @Service
 public class BasicAuthTokenService implements TokenService {
+
+    @Autowired
+    UserService userService;
+
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public Token createToken(User user, Credentials creds) {
@@ -19,8 +28,16 @@ public class BasicAuthTokenService implements TokenService {
 
     @Override
     public User verifyToken(String authorizationHeader) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verifyToken'");
+        if(authorizationHeader == null) return null;
+        var base64Encoded = authorizationHeader.split("Basic ")[1];
+        var decoded = new String(Base64.getDecoder().decode(base64Encoded));
+        var credentials = decoded.split(":");
+        var email = credentials[0];
+        var password = credentials[1];
+        User inDB = userService.findByEmail(email);
+        if(inDB == null) return null;
+        if(!passwordEncoder.matches(password, inDB.getPassword())) return null;
+        return inDB;
     }
     
 }
