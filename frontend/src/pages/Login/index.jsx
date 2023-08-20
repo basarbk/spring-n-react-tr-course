@@ -4,6 +4,7 @@ import { Alert } from "@/shared/components/Alert";
 import { Spinner } from "@/shared/components/Spinner";
 import { Input } from "@/shared/components/Input";
 import { Button } from "@/shared/components/Button";
+import { login } from "./api";
 
 export function Login() {
   const [email, setEmail] = useState();
@@ -33,29 +34,23 @@ export function Login() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    setSuccessMessage();
     setGeneralError();
     setApiProgress(true);
 
     try {
-      //   const response = await signUp({
-      //     username,
-      //     email,
-      //     password,
-      //   });
-      //   setSuccessMessage(response.data.message);
+        await login({ email, password })
     } catch (axiosError) {
-      //   if (axiosError.response?.data) {
-      //     if (axiosError.response.data.status === 400) {
-      //       setErrors(axiosError.response.data.validationErrors);
-      //     } else {
-      //       setGeneralError(axiosError.response.data.message);
-      //     }
-      //   } else {
-      //     setGeneralError(t("genericError"));
-      //   }
+        if (axiosError.response?.data) {
+          if (axiosError.response.data.status === 400) {
+            setErrors(axiosError.response.data.validationErrors);
+          } else {
+            setGeneralError(axiosError.response.data.message);
+          }
+        } else {
+          setGeneralError(t("genericError"));
+        }
     } finally {
-      //   setApiProgress(false);
+        setApiProgress(false);
     }
   };
 
