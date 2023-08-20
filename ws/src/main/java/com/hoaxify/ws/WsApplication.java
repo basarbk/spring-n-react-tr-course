@@ -28,7 +28,7 @@ public class WsApplication {
 					user.setPassword(passwordEncoder.encode("P4ssword"));
 					user.setActive(true);
 					userRepository.save(user);
-				}	
+				}
 		};
 
 	}
