@@ -11,11 +11,17 @@ export function AuthenticationContext({ children }) {
     storeAuthState(data);
   };
 
+  const onLogoutSuccess = () => {
+    setAuth({id: 0})
+    storeAuthState({id: 0})
+  }
+
   return (
     <AuthContext.Provider
       value={{
         ...auth,
         onLoginSuccess,
+        onLogoutSuccess
       }}
     >
       {children}
