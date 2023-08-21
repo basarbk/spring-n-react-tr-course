@@ -8,7 +8,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'http://localhost:8080'
+      '/api': 'http://localhost:8080',
+      '/assets': 'http://localhost:8080',
     }
   },
   resolve: {
