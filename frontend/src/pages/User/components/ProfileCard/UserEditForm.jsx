@@ -46,10 +46,10 @@ export function UserEditForm({ setEditMode, setTempImage }) {
     setErrors({});
     setGeneralError();
     try {
-      await updateUser(authState.id, { username: newUsername, image: newImage });
+      const { data } = await updateUser(authState.id, { username: newUsername, image: newImage });
       dispatch({
         type: "user-update-success",
-        data: { username: newUsername, image: newImage },
+        data: { username: data.username, image: data.image },
       });
       setEditMode(false);
     } catch (axiosError) {
