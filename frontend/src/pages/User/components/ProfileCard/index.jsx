@@ -16,7 +16,7 @@ export function ProfileCard({ user }) {
   return (
     <div className="card">
       <div className="card-header text-center">
-        <ProfileImage width={200} tempImage={tempImage}/>
+        <ProfileImage width={200} tempImage={tempImage} image={user.image}/>
       </div>
       <div className="card-body text-center">
         {!editMode && <span className="fs-3 d-block">{visibleUsername}</span>}
