@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.hoaxify.ws.configuration.CurrentUser;
 import com.hoaxify.ws.email.EmailService;
+import com.hoaxify.ws.file.FileService;
 import com.hoaxify.ws.user.dto.UserUpdate;
 import com.hoaxify.ws.user.exception.ActivationNotificationException;
 import com.hoaxify.ws.user.exception.InvalidTokenException;
@@ -31,6 +32,9 @@ public class UserService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    FileService fileService;
 
     @Transactional(rollbackOn = MailException.class)
     public void save(User user){
@@ -75,7 +79,8 @@ public class UserService {
         User inDB = getUser(id);
         inDB.setUsername(userUpdate.username());
         if(userUpdate.image() != null) {
-            inDB.setImage(userUpdate.image());
+            String fileName = fileService.saveBase64StringAsFile(userUpdate.image());
+            inDB.setImage(fileName);
         }
         return userRepository.save(inDB);
     }
