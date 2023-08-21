@@ -6,7 +6,8 @@ import jakarta.validation.constraints.Size;
 public record UserUpdate(
     @NotBlank(message = "{hoaxify.constraint.username.notblank}")
     @Size(min = 4, max=255)
-    String username
+    String username,
+    String image
 ) {
     
 }
