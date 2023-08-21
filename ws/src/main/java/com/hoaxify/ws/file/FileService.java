@@ -3,6 +3,7 @@ package com.hoaxify.ws.file;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
@@ -25,7 +26,7 @@ public class FileService {
     public String saveBase64StringAsFile(String image) {
         String filename = UUID.randomUUID().toString();
 
-        Path path = Paths.get(hoaxifyProperties.getStorage().getRoot(), hoaxifyProperties.getStorage().getProfile(), filename);
+        Path path = getProfileImagePath(filename);
         try {
             OutputStream outputStream = new FileOutputStream(path.toFile());
             outputStream.write(decodedImage(image));
@@ -44,6 +45,20 @@ public class FileService {
 
     private byte[] decodedImage(String encodedImage) {
         return Base64.getDecoder().decode(encodedImage.split(",")[1]);
+    }
+
+    public void deleteProfileImage(String image) {
+        if(image == null) return;
+        Path path = getProfileImagePath(image);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Path getProfileImagePath(String filename){
+        return Paths.get(hoaxifyProperties.getStorage().getRoot(), hoaxifyProperties.getStorage().getProfile(), filename);
     }
     
 }
