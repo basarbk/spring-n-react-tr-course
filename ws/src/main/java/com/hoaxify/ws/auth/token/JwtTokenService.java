@@ -2,7 +2,7 @@ package com.hoaxify.ws.auth.token;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.context.annotation.Primary;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,7 +18,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 @Service
-@Primary
+@ConditionalOnProperty(name = "hoaxify.token-type", havingValue = "jwt")
 public class JwtTokenService implements TokenService{
 
     SecretKey key = Keys.hmacShaKeyFor("secret-must-be-at-least-32-chars".getBytes());
