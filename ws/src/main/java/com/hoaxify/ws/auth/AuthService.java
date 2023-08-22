@@ -36,5 +36,9 @@ public class AuthService {
         return authResponse;
 
     }
+
+    public void logout(String authorizationHeader) {
+        tokenService.logout(authorizationHeader);
+    }
     
 }

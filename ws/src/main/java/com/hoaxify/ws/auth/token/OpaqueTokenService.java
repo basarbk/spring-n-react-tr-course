@@ -1,5 +1,6 @@
 package com.hoaxify.ws.auth.token;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,22 @@ public class OpaqueTokenService implements TokenService {
 
     @Override
     public User verifyToken(String authorizationHeader) {
-        if(authorizationHeader == null) return null;
-        var token = authorizationHeader.split(" ")[1];
-        var tokenInDB = tokenRepository.findById(token);
+        var tokenInDB = getToken(authorizationHeader);
         if(!tokenInDB.isPresent()) return null;
         return tokenInDB.get().getUser();
+    }
+
+    @Override
+    public void logout(String authorizationHeader) {
+        var tokenInDB = getToken(authorizationHeader);
+        if(!tokenInDB.isPresent()) return;
+        tokenRepository.delete(tokenInDB.get());
+    }
+
+    private Optional<Token> getToken(String authorizationHeader){
+        if(authorizationHeader == null) return Optional.empty();
+        var token = authorizationHeader.split(" ")[1];
+        return tokenRepository.findById(token);
     }
     
 }
