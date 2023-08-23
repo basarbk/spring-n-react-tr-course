@@ -19,6 +19,7 @@ import com.hoaxify.ws.configuration.CurrentUser;
 import com.hoaxify.ws.shared.GenericMessage;
 import com.hoaxify.ws.shared.Messages;
 import com.hoaxify.ws.user.dto.PasswordResetRequest;
+import com.hoaxify.ws.user.dto.PasswordUpdate;
 import com.hoaxify.ws.user.dto.UserCreate;
 import com.hoaxify.ws.user.dto.UserDTO;
 import com.hoaxify.ws.user.dto.UserUpdate;
@@ -72,6 +73,13 @@ public class UserController {
     GenericMessage passwordResetRequest(@Valid @RequestBody PasswordResetRequest passwordResetRequest) {
       userService.handleResetRequest(passwordResetRequest);
       return new GenericMessage("Check your email address to reset your password");
+    }
+
+    @PatchMapping("/api/v1/users/{token}/password")
+    GenericMessage setPassword(@PathVariable String token, @Valid @RequestBody PasswordUpdate passwordUpdate){
+        userService.updatePassword(token, passwordUpdate);
+        return new GenericMessage("Password updated successfully");
+
     }
     
 }
