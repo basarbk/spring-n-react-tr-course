@@ -41,6 +41,24 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     List<Token> tokens;
 
+    String passwordResetToken;
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
+    }
+
     public String getImage() {
         return image;
     }

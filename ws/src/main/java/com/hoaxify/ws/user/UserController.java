@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hoaxify.ws.configuration.CurrentUser;
 import com.hoaxify.ws.shared.GenericMessage;
 import com.hoaxify.ws.shared.Messages;
+import com.hoaxify.ws.user.dto.PasswordResetRequest;
 import com.hoaxify.ws.user.dto.UserCreate;
 import com.hoaxify.ws.user.dto.UserDTO;
 import com.hoaxify.ws.user.dto.UserUpdate;
@@ -65,6 +66,12 @@ public class UserController {
     GenericMessage deleteUser(@PathVariable long id){
         userService.deleteUser(id);
         return new GenericMessage("User is deleted");
+    }
+
+    @PostMapping("/api/v1/users/password-reset")
+    GenericMessage passwordResetRequest(@Valid @RequestBody PasswordResetRequest passwordResetRequest) {
+      userService.handleResetRequest(passwordResetRequest);
+      return new GenericMessage("Check your email address to reset your password");
     }
     
 }

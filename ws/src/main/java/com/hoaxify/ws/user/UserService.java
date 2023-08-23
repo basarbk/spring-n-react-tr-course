@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.hoaxify.ws.configuration.CurrentUser;
 import com.hoaxify.ws.email.EmailService;
 import com.hoaxify.ws.file.FileService;
+import com.hoaxify.ws.user.dto.PasswordResetRequest;
 import com.hoaxify.ws.user.dto.UserUpdate;
 import com.hoaxify.ws.user.exception.ActivationNotificationException;
 import com.hoaxify.ws.user.exception.InvalidTokenException;
@@ -93,5 +94,13 @@ public class UserService {
         }
         userRepository.delete(inDB);
     }
+
+    public void handleResetRequest(PasswordResetRequest passwordResetRequest) {
+        User inDB = findByEmail(passwordResetRequest.email());
+        if(inDB == null) throw new NotFoundException(0);
+        inDB.setPasswordResetToken(UUID.randomUUID().toString());
+        this.userRepository.save(inDB);
+        this.emailService.sendPasswordResetEmail(inDB.getEmail(), inDB.getPasswordResetToken());
+      }
 
 }
