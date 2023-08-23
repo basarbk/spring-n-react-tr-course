@@ -3,13 +3,14 @@ import { useAuthState } from "@/shared/state/context";
 import { useState } from "react";
 import { ProfileImage } from "@/shared/components/ProfileImage";
 import { UserEditForm } from "./UserEditForm";
+import { UserDeleteButton } from "./UserDeleteButton";
 
 export function ProfileCard({ user }) {
   const authState = useAuthState();
   const [editMode, setEditMode] = useState(false);
   const [tempImage, setTempImage] = useState();
   
-  const isEditButtonVisible = !editMode && authState.id === user.id;
+  const isLoggedInUser = !editMode && authState.id === user.id;
 
   const visibleUsername = authState.id === user.id ? authState.username : user.username;
 
@@ -20,8 +21,12 @@ export function ProfileCard({ user }) {
       </div>
       <div className="card-body text-center">
         {!editMode && <span className="fs-3 d-block">{visibleUsername}</span>}
-        {isEditButtonVisible && (
-          <Button onClick={() => setEditMode(true)}>Edit</Button>
+        {isLoggedInUser && (
+          <>
+            <Button onClick={() => setEditMode(true)}>Edit</Button>
+            <div className="d-inline m-1"></div>
+            <UserDeleteButton />
+          </>
         )}
         {editMode && <UserEditForm setEditMode={setEditMode} setTempImage={setTempImage}/>}
       </div>
