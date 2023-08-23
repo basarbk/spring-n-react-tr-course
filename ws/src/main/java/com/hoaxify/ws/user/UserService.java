@@ -86,4 +86,12 @@ public class UserService {
         return userRepository.save(inDB);
     }
 
+    public void deleteUser(long id) {
+        User inDB = getUser(id);
+        if(inDB.getImage() != null) {
+            fileService.deleteProfileImage(inDB.getImage());
+        }
+        userRepository.delete(inDB);
+    }
+
 }

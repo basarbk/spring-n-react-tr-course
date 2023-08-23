@@ -1,11 +1,16 @@
 package com.hoaxify.ws.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hoaxify.ws.auth.token.Token;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -32,6 +37,9 @@ public class User {
 
     @Lob
     String image;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    List<Token> tokens;
 
     public String getImage() {
         return image;
