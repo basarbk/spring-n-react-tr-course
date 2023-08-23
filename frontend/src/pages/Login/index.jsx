@@ -5,7 +5,7 @@ import { Input } from "@/shared/components/Input";
 import { Button } from "@/shared/components/Button";
 import { login } from "./api";
 import { useAuthDispatch } from "@/shared/state/context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Login() {
   const [email, setEmail] = useState();
@@ -86,6 +86,9 @@ export function Login() {
                 {t("login")}
               </Button>
             </div>
+          </div>
+          <div className="card-footer text-center">
+            <Link to="/password-reset/request">Forget password?</Link>
           </div>
         </form>
       </div>
